@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+
+    </style>
+</head>
+<body>
+<div th:fragment="workingTimeDetail">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">勤務表</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a th:href="@{/default}">ホームページ</a></li>
+                        <li class="breadcrumb-item active">勤務表一覧</li>
+                        <li class="breadcrumb-item">勤務表</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <!-- 社員情報 -->
+            <table class="table mb-0 worktime-table" style="width: 100%;">
+                <tr>
+                    <td class="text-center align-middle p-1 worktime-header-green" style="width: 60px;">当年</td>
+                    <td class="text-center align-middle p-1 worktime-header-white" style="width: 60px;">2024</td>
+                    <td class="text-center align-middle p-1 worktime-header-green" rowspan="2" style="width: 100px;">現場名</td>
+                    <td class="text-center align-middle p-1 worktime-header-white" rowspan="2" style="width: 400px;">株式会社アイディエージェンサルティング</td>
+                    <td class="text-center align-middle p-1 worktime-header-green" rowspan="2" style="width: 80px;">社員番号</td>
+                    <td class="text-center align-middle p-1 worktime-header-white" rowspan="2" style="width: 60px;">128</td>
+                    <td class="text-center align-middle p-1 worktime-header-green" rowspan="2" style="width: 60px;">名前</td>
+                    <td class="text-center align-middle p-1 worktime-header-white" rowspan="2" style="width: 180px;">小野 みどり</td>
+                </tr>
+                <tr>
+                    <td class="text-center align-middle p-1 worktime-header-green">当月</td>
+                    <td class="text-center align-middle p-1 worktime-header-white">5</td>
+                </tr>
+            </table>
+            
+            <!-- 勤務詳細 -->
+            <table class="table worktime-table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="text-center align-middle vertical-text header-cell worktime-header-blue" style="width: 30px;">日付</th>
+                        <th rowspan="2" class="text-center align-middle vertical-text header-cell worktime-header-blue" style="width: 30px;">曜日</th>
+                        <th rowspan="2" class="text-center align-middle header-cell worktime-header-blue" style="width: 100px;">休暇取得</th>
+                        <th rowspan="2" class="text-center align-middle header-cell worktime-header-blue" style="width: 100px;">作業場所</th>
+                        <th colspan="4" class="text-center align-middle header-cell worktime-header-blue">時間</th>
+                        <th rowspan="2" class="text-center align-middle header-cell worktime-header-blue" style="width: 100px;">休憩時間(m)</th>
+                        <th rowspan="2" class="text-center align-middle header-cell worktime-header-blue" style="width: 100px;">備考</th>
+                        <th rowspan="2" class="text-center align-middle header-cell worktime-header-dark-blue" style="width: 80px;">実績時間</th>
+                        <th rowspan="2" class="text-center align-middle header-cell worktime-header-dark-blue" style="width: 80px;">総残業</th>
+                        <th rowspan="2" class="text-center align-middle header-cell worktime-header-dark-blue" style="width: 80px;">通常残業</th>
+                        <th rowspan="2" class="text-center align-middle header-cell worktime-header-dark-blue" style="width: 80px;">休日残業</th>
+                        <th rowspan="2" class="text-center align-middle header-cell worktime-header-dark-blue" style="width: 80px;">深夜残業</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center align-middle header-cell worktime-header-blue" style="width: 60px;">始業(h)</th>
+                        <th class="text-center align-middle header-cell worktime-header-blue" style="width: 60px;">始業(m)</th>
+                        <th class="text-center align-middle header-cell worktime-header-blue" style="width: 60px;">終業(h)</th>
+                        <th class="text-center align-middle header-cell worktime-header-blue" style="width: 60px;">終業(m)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="day : ${#numbers.sequence(1, 31)}" 
+                        th:class="${#dates.format(#dates.create(2024, 5, day), 'E')== '土' || #dates.format(#dates.create(2024, 5, day), 'E')== '日' || holidays.contains(day)} ? 'holiday-row' : ''"
+                        style="height: 30px;">
+                        <td class="text-center align-middle p-1" style="width: 30px;" th:text="${day}"></td>
+                        <td class="text-center align-middle p-1" style="width: 30px;" th:text="${#dates.format(#dates.create(2024, 5, day), 'E')}"></td>
+                        <td class="text-center align-middle p-1"  th:text="${holidays.contains(day)} ? '祝日' : ''"></td>
+                        <td class="p-1">
+                            <select class="form-control form-control-sm worktime-input" th:disabled="${day % 7 == 0 || day % 7 == 1 || holidays.contains(day)}">
+                                <option value="現場">現場</option>
+                                <option value="在宅">在宅</option>
+                                <option value="自社">自社</option>
+                            </select>
+                        </td>
+                        <td class="p-1"><input type="number" class="form-control form-control-sm text-right worktime-input" min="0" max="23" value="8" th:disabled="${day % 7 == 0 || day % 7 == 1 || holidays.contains(day)}"></td>
+                        <td class="p-1"><input type="number" class="form-control form-control-sm text-right worktime-input" min="0" max="59" value="30" th:disabled="${day % 7 == 0 || day % 7 == 1 || holidays.contains(day)}"></td>
+                        <td class="p-1"><input type="number" class="form-control form-control-sm text-right worktime-input" min="0" max="23" value="17" th:disabled="${day % 7 == 0 || day % 7 == 1 || holidays.contains(day)}"></td>
+                        <td class="p-1"><input type="number" class="form-control form-control-sm text-right worktime-input" min="0" max="59" value="30" th:disabled="${day % 7 == 0 || day % 7 == 1 || holidays.contains(day)}"></td>
+                        <td class="p-1"><input type="number" class="form-control form-control-sm text-right worktime-input" min="0" max="480" value="60" th:disabled="${day % 7 == 0 || day % 7 == 1 || holidays.contains(day)}"></td>
+                        <td class="p-1"><input type="text" class="form-control form-control-sm worktime-input" th:disabled="${day % 7 == 0 || day % 7 == 1 || holidays.contains(day)}"></td>
+                        <td class="text-right align-middle p-1">8.00</td>
+                        <td class="text-right align-middle p-1">0.00</td>
+                        <td class="text-right align-middle p-1">0.00</td>
+                        <td class="text-right align-middle p-1">0.00</td>
+                        <td class="text-right align-middle p-1">0.00</td>
+                    </tr>
+                    <tr class="bg-success text-white">
+                        <td colspan="10" class="text-center font-weight-bold p-1">合計</td>
+                        <td class="text-right font-weight-bold p-1">157.00</td>
+                        <td class="text-right font-weight-bold p-1">13.00</td>
+                        <td class="text-right font-weight-bold p-1">9.50</td>
+                        <td class="text-right font-weight-bold p-1">2.00</td>
+                        <td class="text-right font-weight-bold p-1">1.50</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="button-container">
+            <button type="button" class="btn worktime-btn worktime-btn-back">戻る</button>
+            <button type="button" class="btn worktime-btn worktime-btn-save ml-10">保存</button>
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+    <script src="plugins/jqgrid-5.7.0/grid.locale-ja.js"></script>
+    <!-- sweet alert -->
+    <script src="plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="plugins/jqgrid-5.7.0/jquery.jqGrid.min.js"></script>
+</div>
+</body>
+</html>

@@ -32,7 +32,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (adminUser != null) {
             //登录后即执行修改token的操作
             String token = getNewToken(System.currentTimeMillis() + "", adminUser.getId());
-            if (adminUserDao.updateUserToken(adminUser.getId(), token) > 0) {
+            if (adminUserDao.updateUserToken(adminUser.getId(), token, token) > 0) {
                 //返回数据时带上token
                 adminUser.setUserToken(token);
                 return adminUser;

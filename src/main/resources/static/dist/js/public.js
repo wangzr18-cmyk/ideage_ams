@@ -146,7 +146,7 @@ function checkCookie() {
         swal("未ログイン", {
             icon: "error",
         });
-        window.location.href = "login.html";
+        window.location.href = "login";
     }
 }
 
@@ -155,7 +155,7 @@ function checkCookie() {
  */
 function checkResultCode(code) {
     if (code == 402) {
-        window.location.href = "login.html";
+        window.location.href = "login";
     }
 }
 
@@ -204,3 +204,30 @@ function getSelectedRows() {
     }
     return grid.getGridParam("selarrrow");
 }
+
+function loadContent(url) {
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            $('#contentContainer').html(data);
+        },
+        error: function() {
+            $('#contentContainer').html(
+                '<div class="error">エラー発生しました、画面をリロードしてください。</div>'
+            );
+        }
+    });
+}
+
+$(document).ready(function() {
+   $('a').click(function(e) {
+        var url = $(this).attr('href');
+        if (url && url !== '#') {
+            e.preventDefault();
+            // 動的ページ内容をメイン画面のコンテンツ部に追加
+            loadContent(url);
+        }
+    });
+
+});

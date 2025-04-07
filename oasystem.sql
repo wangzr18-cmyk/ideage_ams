@@ -54,3 +54,6 @@ CREATE TABLE `tb_ssm_article` (
 -- Records of tb_ssm_article
 -- ----------------------------
 INSERT INTO `tb_ssm_article` VALUES ('1', '321', 0x3C703E3132333C2F703E, '321', '2024-05-22 21:28:56', '2024-05-22 21:28:56', '1');
+
+
+ALTER TABLE oasystem.admin_users ADD seriesId varchar(100) NULL;

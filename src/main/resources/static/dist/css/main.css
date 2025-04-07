@@ -65,3 +65,208 @@ tbody > tr > th {font-weight: normal; }
     max-width: 120px;
     padding: 0;
 }
+
+/* Login page styles */
+.login-box {
+    width: 400px;
+    margin: 7% auto;
+}
+
+.login-logo {
+    font-size: 45px;
+    margin-bottom: 30px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+.login-logo b {
+    font-weight: normal;
+}
+
+.login-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+    font-weight: normal;
+    color: #333;
+    text-align: center;
+}
+
+.card {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.login-card-body {
+    padding: 20px;
+}
+
+.form-control {
+    height: 45px;
+    border-radius: 3px;
+}
+
+.btn-primary {
+    width: 120px;
+    height: 40px;
+    background-color: #4a90e2;
+    border: none;
+    float: right;
+    margin-top: -35px;
+}
+
+.input-group-text {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    z-index: 4;
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.form-check {
+    margin-top: 15px;
+    margin-bottom: 50px;
+}
+
+/* 勤務表詳細画面のスタイル */
+.worktime-header-green {
+    background-color: #4CAF50;
+    color: Black;
+    height: 30px;
+}
+
+.worktime-header-white {
+    background-color: white;
+    height: 30px;
+}
+
+.worktime-subheader {
+    background-color: #E8EAF6;
+}
+
+.worktime-time-header {
+    background-color: #90CAF9;
+}
+
+.worktime-table {
+    font-size: 14px;
+}
+
+.worktime-table th,
+.worktime-table td {
+    padding: 4px !important;
+}
+
+.worktime-input {
+    height: 28px !important;
+    padding: 2px 5px !important;
+}
+
+.worktime-row {
+    height: 30px;
+}
+
+.worktime-btn {
+    border-radius: 2px;
+    padding: 4px 20px;
+    font-size: 14px;
+}
+
+.worktime-btn-save {
+    width: 120px;
+    height: 40px;
+    background-color: #4582EC;
+    border: none;
+    float: right;
+    margin-top: -10px;
+}
+
+.worktime-btn-back {
+    width: 120px;
+    height: 40px;
+    background-color: #6C757D;
+    border: none;
+    margin-top: -10px;
+}
+
+.worktime-holiday {
+    background-color: #fff3cd;
+}
+
+.bg-success {
+    border: 1px solid #000000 !important;
+    background-color: #28a745 !important;
+}
+
+.vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    white-space: nowrap;
+    padding: 5px 2px !important;
+}
+
+.header-cell {
+    padding: 2px !important;
+    height: 30px;
+}
+.table-bordered td, 
+.table-bordered th {
+    border: 2px solid #000000 !important;
+}
+
+/* 工作时间详细表格样式 */
+.table-responsive {
+    padding: 0 30px;
+}
+
+/* 按钮容器样式 */
+.button-container {
+    padding: 10px 30px;
+    text-align: right;
+}
+
+.worktime-table {
+    border: 2px solid #000000 !important;
+    margin-bottom: 0;
+}
+
+/* 表格内部边框样式 */
+.worktime-table td,
+.worktime-table th {
+    border: 1px solid #dee2e6 !important;
+}
+
+/* 覆盖Bootstrap的默认边框样式 */
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #dee2e6 !important;
+}
+.worktime-header-blue {
+    background-color: #B3C7EF;
+}
+
+.worktime-header-dark-blue {
+    background-color: #1E4D8C;
+}
+
+.holiday-row {
+    background-color: #fff3cd !important;
+}
+
+.holiday-row td {
+    background-color: #fff3cd !important;
+}
+
+.holiday-row td[style*="background-color"] {
+    background-color: #B3C7EF !important;
+}

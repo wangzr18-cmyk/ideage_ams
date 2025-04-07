@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="header">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a th:href="@{/default}" class="nav-link">ホームページ</a>
+            </li>
+        </ul>
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+            <!-- Messages Dropdown Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="https://www.google.com">
+                    <i class="fa fa-home">&nbsp;&nbsp;ドキュメント</i>
+                </a>
+                <div class="dropdown-menu dropdown-donate-lg dropdown-menu-right">
+                    <a href="##" class="dropdown-item">勤怠管理</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user">&nbsp;&nbsp;社員情報</i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-user-o mr-2"></i> 社員
+                        <span class="float-right text-muted text-sm" th:text="${username}">田中</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-user-secret mr-2"></i> 職務
+                        <span class="float-right text-muted text-sm">エンジニア</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-address-card mr-2"></i> メール
+                        <span class="float-right text-muted text-sm" th:text="${email}">xxx@ideage.co.jp</span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</nav>
+</body>
+</html>

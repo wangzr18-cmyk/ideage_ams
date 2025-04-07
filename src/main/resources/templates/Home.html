@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>社内管理システム</title>
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.css">
+    <link href="plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="dist/css/main.css" rel="stylesheet"/>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- jqgrid ui -->
+    <link href="plugins/jqgrid-5.7.0/ui.jqgrid-bootstrap4.css" rel="stylesheet"/>
+        <!-- sweet alert -->
+    <link rel="stylesheet" href="plugins/sweetalert/sweetalert.css">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- Header Fragment -->
+    <div th:replace="~{layout/header :: header}"></div>
+
+    <!-- Menu Fragment -->
+    <div th:replace="~{layout/menu :: menu}"></div>
+
+    <!-- Dynamic Content Area -->
+    <div class="content-wrapper">
+        <main id="contentContainer" class="contentContainer" th:fragment="content">
+            <!-- content -->
+            <div th:replace="~{layout/default :: default}"></div>
+            <!-- /.content -->
+        </main>
+    </div>
+
+    <!-- Footer Fragment -->
+    <div th:replace="~{layout/footer :: footer}"></div>
+
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+    <script src="plugins/jqgrid-5.7.0/grid.locale-ja.js"></script>
+    <!-- sweet alert -->
+    <script src="plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="plugins/jqgrid-5.7.0/jquery.jqGrid.min.js"></script>
+    <script type="text/javascript" src="dist/js/public.js"></script><!-- AdminLTE App -->
+    <script src="dist/js/adminlte.js"></script>
+</div>
+</body>
+</html>

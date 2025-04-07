@@ -4,11 +4,14 @@
 <mapper namespace="com.ideage.ams.dao.AdminUserDao">
     <resultMap type="com.ideage.ams.entity.AdminUser" id="AdminUserResult">
         <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
-        <result property="password" column="password_md5" jdbcType="VARCHAR"/>
-        <result property="userToken" column="user_token" jdbcType="VARCHAR"/>
-        <result property="isSkj" column="is_skj" jdbcType="TINYINT"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="userName" column="username" jdbcType="VARCHAR"/>
+        <result property="displayName" column="name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="iconUrl" column="avatar" jdbcType="VARCHAR"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <result property="userToken" column="remember_token" jdbcType="VARCHAR"/>
+        <result property="createTime" column="created_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <insert id="addUser" parameterType="com.ideage.ams.entity.AdminUser">
@@ -62,15 +65,16 @@
 	</select>
 
     <select id="getAdminUserByUserName" resultMap="AdminUserResult">
-		select id,user_name,user_token
-		from tb_admin_user
-        where user_name = #{userName}
-        and is_skj = 0
+		select admin_users.id,username,admin_users.name,password,email, remember_token,avatar, admin_roles.name AS 'role'
+		from admin_users
+		INNER JOIN admin_role_users on admin_users.id = admin_role_users.user_id
+		INNER JOIN admin_roles ON  admin_role_users.role_id = admin_roles.id
+        where username = #{userName} or email = #{userName} or seriesId = #{userName}
 		ORDER BY  id DESC limit 1
 	</select>
 
     <update id="updateUserToken">
-        update tb_admin_user set user_token = #{newToken} where id =#{userId} and is_skj = 0
+        update admin_users set remember_token = #{newToken} , seriesId = #{seriesId} where id =#{userId}
     </update>
 
     <update id="updateUserPassword">

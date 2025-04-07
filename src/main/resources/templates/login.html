@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,13 +25,13 @@
     <div class="card">
         <div class="card-body login-card-body">
             <h4 class="text-center login-title">ログイン</h4>
-            <form action="#" onsubmit="return false;" method="post">
+            <form id="loginForm" th:action="@{/authenticate}" method="post">
                 <div class="form-group">
                     <div class="alert alert-danger" style="display: none;">エラー表示欄。</div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" id="userName" class="form-control" placeholder="社員番号/社内メールアドレス">
+                        <input type="text" id="username" class="form-control" placeholder="社員番号/社内メールアドレス">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fa fa-user"></i></span>
                         </div>
@@ -45,13 +45,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="remember-me">
-                    <label class="form-check-label" for="remember-me">ログイン状態を記憶</label>
-                    <div class="form-group">
-                        <button type="submit" onclick="login()" class="btn btn-primary">ログイン</button>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="remember-me">
+                            <label class="form-check-label" for="remember-me">ログイン状態を記憶</label>
+                        </div>
                     </div>
-                </div>            
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">ログイン</button>
+                    </div>
+                </div>
             </form>
         </div>
         <!-- /.login-card-body -->
@@ -66,5 +70,6 @@
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="dist/js/public.js"></script>
+<script src="dist/js/login.js"></script>
 </body>
 </html>

@@ -29,7 +29,7 @@ public interface AdminUserDao {
 
     int updateUserPassword(@Param("userId") Long userId, @Param("newPassword") String newPassword);
 
-    int updateUserToken(@Param("userId") Long userId, @Param("newToken") String newToken);
+    int updateUserToken(@Param("userId") Long userId, @Param("newToken") String newToken, @Param("seriesId") String seriesId);
 
     int deleteBatch(Object[] ids);
 

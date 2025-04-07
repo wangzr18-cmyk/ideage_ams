@@ -1,6 +1,6 @@
 var editorD;
 
-$(function () {
+$(function() {
     //エラー表示欄の隠す
     $('.alert-danger').css("display", "none");
 
@@ -48,12 +48,33 @@ $(function () {
         datatype: "json",
         colModel: [
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
-            {label: 'タイトル', name: 'attendanceTitle', index: 'articleTitle', width: 240},
-            {label: '作成者', name: 'addName', index: 'addName', width: 120},
-            {label: '登録時間', name: 'createTime', index: 'createTime', width: 120},
-            {label: '更新時間', name: 'updateTime', index: 'updateTime', width: 120}
+            {label: '社員番号', name: 'employeeId', index: 'employeeId', width: 80, align: 'center'},
+            {label: '名前', name: 'employeeName', index: 'employeeName', width: 100},
+            {label: '部門', name: 'department', index: 'department', width: 100},
+            {label: '勤務年月', name: 'workMonth', index: 'workMonth', width: 100, align: 'center'},
+            {label: '出勤日数', name: 'workDays', index: 'workDays', width: 80, align: 'right'},
+            {label: '実績(時)', name: 'actualHours', index: 'actualHours', width: 80, align: 'right',
+                formatter: 'number', formatoptions: {decimalPlaces: 2}},
+            {label: '総残業(時)', name: 'totalOvertime', index: 'totalOvertime', width: 80, align: 'right',
+                formatter: 'number', formatoptions: {decimalPlaces: 2}},
+            {label: '深夜残業(時)', name: 'lateNightOvertime', index: 'lateNightOvertime', width: 80, align: 'right',
+                formatter: 'number', formatoptions: {decimalPlaces: 2}},
+            {label: '有休消化(日)', name: 'paidLeaveUsed', index: 'paidLeaveUsed', width: 100, align: 'right',
+                formatter: 'number', formatoptions: {decimalPlaces: 1}},
+            {label: '総残有休(日)', name: 'totalPaidLeave', index: 'totalPaidLeave', width: 100, align: 'right',
+                formatter: 'number', formatoptions: {decimalPlaces: 1}},
+            {label: '休暇チェック状態', name: 'status', index: 'status', width: 120, align: 'center',
+                formatter: function(cellvalue, options, rowObject) {
+                    return cellvalue == 1 ? '完成' : '未完成';
+                }
+            },
+            {label: '操作', name: 'actions', index: 'actions', width: 80, align: 'center', sortable: false,
+                formatter: function(cellvalue, options, rowObject) {
+                    return '<a href="javascript:void(0);" onclick="attendanceEdit(' + rowObject.id + ')" class="btn btn-sm btn-info">編集</a>';
+                }
+            }
         ],
-        height: 560,
+        height: 'auto',
         rowNum: 10,
         rowList: [10, 20, 50],
         styleUI: 'Bootstrap',
@@ -80,6 +101,15 @@ $(function () {
     });
     $(window).resize(function () {
         $("#jqGrid").setGridWidth($(".card-body").width());
+    });
+
+    $('a').click(function(e) {
+        var url = $(this).attr('href');
+        if (url && url !== '#') {
+            e.preventDefault();
+            // 動的ページ内容をメイン画面のコンテンツ部に追加
+            loadContent(url);
+        }
     });
 });
 
@@ -247,5 +277,22 @@ function reload() {
     var page = $("#jqGrid").jqGrid('getGridParam', 'page');
     $("#jqGrid").jqGrid('setGridParam', {
         page: page
+    }).trigger("reloadGrid");
+}
+
+function searchAttendance() {
+    var searchData = {
+        startMonth: $('#startMonth').val(),
+        endMonth: $('#endMonth').val(),
+        department: $('#department').val(),
+        employeeId: $('#employeeId').val(),
+        employeeName: $('#employeeName').val(),
+        status: $('#status').val()
+    };
+
+    // 重新加载表格，带上搜索参数
+    $("#jqGrid").jqGrid('setGridParam', {
+        postData: searchData,
+        page: 1
     }).trigger("reloadGrid");
 }
