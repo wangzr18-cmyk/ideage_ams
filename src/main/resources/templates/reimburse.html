@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="workingTime">
+
+<div th:fragment="reimburse">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">勤務表一覧</h1>
+                    <h1 class="m-0 text-dark">精算申请一覧</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a th:href="@{/default}">ホームページ</a></li>
-                        <li class="breadcrumb-item active">勤務表一覧</li>
+                        <li class="breadcrumb-item active">精算申请一覧</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -50,15 +51,8 @@
                                 <label class="mb-0 mr-2">名前</label>
                                 <input type="text" class="form-control form-control-sm" id="employeeName" style="width: 120px;">
                             </div>
-                            <div class="d-flex align-items-center mr-3">
-                                <label class="mb-0 mr-2">休暇チェック状態</label>
-                                <select class="form-control form-control-sm" id="status" style="width: 100px;">
-                                    <option value="">全て</option>
-                                    <option value="1">完成</option>
-                                    <option value="0">未完成</option>
-                                </select>
-                            </div>
-                            <button type="button" class="btn btn-info btn-sm" onclick="searchAttendance()">
+
+                            <button type="button" class="btn btn-info btn-sm" onclick="searchReimburseList()">
                                 <i class="fa fa-search"></i> 検索
                             </button>
                         </div>
@@ -78,12 +72,17 @@
                             <button class="btn btn-info" onclick="attendanceAdd()"><i
                                     class="fa fa-plus"></i>&nbsp;追加
                             </button>
-                            <button class="btn btn-info" onclick="attendanceEdit()"><i
+                            <button class="btn btn-info" onclick="expenseExport()"><i
                                     class="fa fa-print"></i>&nbsp;出力
                             </button>
-                            <button class="btn btn-danger" onclick="deleteattendance()"><i
+                            <button class="btn btn-danger" onclick="deleteExpense()"><i
                                     class="fa fa-trash-o"></i>&nbsp;削除
                             </button>
+
+                            <!-- CSRF 隐藏字段 -->
+                            <meta name="_csrf" content="${_csrf.token}"/>
+                            <meta name="_csrf_header" content="${_csrf.headerName}"/>
+
                         </div>
                         <table id="jqGrid" class="table table-bordered">
                         </table>
@@ -99,7 +98,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content" style="width: 800px;height: 880px;">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" on><span
                                 aria-hidden="true">&times;</span></button>
                         <h6 class="modal-title" id="attendanceModalLabel">編集</h6>
                     </div>
@@ -144,7 +143,7 @@
     <!-- sweet alert -->
     <script src="plugins/sweetalert/sweetalert.min.js"></script>
     <script src="plugins/jqgrid-5.7.0/jquery.jqGrid.min.js"></script>
-    <script type="text/javascript" src="dist/js/attendancelist.js"></script>
+    <script type="text/javascript" src="dist/js/TrxExpenseRequest.js"></script>
 </div>
 </body>
 </html>

@@ -65,12 +65,23 @@
 	</select>
 
     <select id="getAdminUserByUserName" resultMap="AdminUserResult">
-		select admin_users.id,username,admin_users.name,password,email, remember_token,avatar, admin_roles.name AS 'role'
-		from admin_users
-		INNER JOIN admin_role_users on admin_users.id = admin_role_users.user_id
-		INNER JOIN admin_roles ON  admin_role_users.role_id = admin_roles.id
-        where username = #{userName} or email = #{userName} or seriesId = #{userName}
-		ORDER BY  id DESC limit 1
+
+select admin_users.id AS id,
+       tb_admin_user.user_name AS username,
+       admin_users.emp_name AS displayname,
+       tb_admin_user.password_md5 AS password,
+       admin_users.email AS email,
+       admin_login_user.user_token AS remember_token,
+       admin_users.icon_url AS avatar,
+       admin_roles.role_name AS role
+from admin_users
+         INNER JOIN admin_role_users on admin_users.id = admin_role_users.id
+         INNER JOIN admin_roles ON  admin_role_users.role_code = admin_roles.role_code
+         INNER JOIN admin_login_user ON admin_users.emp_id = admin_login_user.emp_id
+         INNER JOIN tb_admin_user ON admin_users.id = tb_admin_user.id
+where tb_admin_user.user_name =  #{userName} or admin_users.email = #{userName} or admin_login_user.series_id = #{userName}
+ORDER BY admin_users.id DESC
+
 	</select>
 
     <update id="updateUserToken">

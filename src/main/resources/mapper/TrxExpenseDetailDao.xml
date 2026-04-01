@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ideage.ams.dao.TrxExpenseDetailDao">
+        <!-- ================= resultMap ================= -->
+        <resultMap id="BaseResultMap" type="com.ideage.ams.entity.TrxExpenseDetail">
+            <id column="id" property="id"/>
+            <result column="request_id" property="requestId"/>
+            <result column="request_date" property="requestDate"/>
+            <result column="site_name" property="siteName"/>
+            <result column="expense_date" property="expenseDate"/>
+            <result column="transport_destination" property="transportDestination"/>
+            <result column="transport_section" property="transportSection"/>
+            <result column="transport_method" property="transportMethod"/>
+            <result column="transport_expense_type" property="transportExpenseType"/>
+            <result column="transport_item" property="transportItem"/>
+            <result column="transport_amount" property="transportAmount"/>
+
+            <result column="other_payee" property="otherPayee"/>
+            <result column="other_account_title" property="otherAccountTitle"/>
+            <result column="other_summary" property="otherSummary"/>
+            <result column="other_amount" property="otherAmount"/>
+
+            <result column="receipt_url" property="receiptUrl"/>
+            <result column="remarks" property="remarks"/>
+            <result column="create_user_id" property="createUserId"/>
+            <result column="update_user_id" property="updateUserId"/>
+            <result column="create_time" property="createTime"/>
+            <result column="update_time" property="updateTime"/>
+            <result column="del_flg" property="delFlg"/>
+        </resultMap>
+
+    <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT *
+        FROM trx_expense_detail AS ted
+        WHERE del_flg = '0'
+        <if test="requestId != null">
+            AND request_id = #{requestId}
+        </if>
+        ORDER BY expense_date DESC
+
+    </select>
+
+    <select id="selectById" parameterType="int" resultType="com.ideage.ams.entity.TrxExpenseDetail">
+
+    </select>
+
+    <insert id="insert" parameterType="com.ideage.ams.entity.TrxExpenseDetail" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO trx_expense_detail
+        (request_id, request_date, site_name, expense_date, transport_destination,
+         transport_section, transport_method, transport_expense_type, transport_item,
+         transport_amount, transport_total, other_payee, other_account_title,
+         other_summary, other_amount, other_total, subtotal_amount,
+         receipt_url, remarks, create_user_id, update_user_id)
+        VALUES
+            (#{requestId}, #{requestDate}, #{siteName}, #{expenseDate}, #{transportDestination},
+             #{transportSection}, #{transportMethod}, #{transportExpenseType}, #{transportItem},
+             #{transportAmount}, #{transportTotal}, #{otherPayee}, #{otherAccountTitle},
+             #{otherSummary}, #{otherAmount}, #{otherTotal}, #{subtotalAmount},
+             #{receiptUrl}, #{remarks}, #{createUserId}, #{updateUserId})
+    </insert>
+
+    <update id="update" parameterType="com.ideage.ams.entity.TrxExpenseDetail">
+        UPDATE trx_expense_detail
+        SET
+            request_date = #{requestDate},
+            site_name = #{siteName},
+            expense_date = #{expenseDate},
+            transport_destination = #{transportDestination},
+            transport_section = #{transportSection},
+            transport_method = #{transportMethod},
+            transport_expense_type = #{transportExpenseType},
+            transport_item = #{transportItem},
+            transport_amount = #{transportAmount},
+            transport_total = #{transportTotal},
+            other_payee = #{otherPayee},
+            other_account_title = #{otherAccountTitle},
+            other_summary = #{otherSummary},
+            other_amount = #{otherAmount},
+            other_total = #{otherTotal},
+            subtotal_amount = #{subtotalAmount},
+            receipt_url = #{receiptUrl},
+            remarks = #{remarks},
+            update_user_id = #{updateUserId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM trx_expense_detail WHERE id = #{id}
+    </delete>
+
+    <select id="selectTotalByRequestId" resultType="int">
+        SELECT SUM(subtotal_amount)
+        FROM trx_expense_detail
+        WHERE request_id = #{requestId} AND del_flg = '0'
+    </select>
+
+
+</mapper>

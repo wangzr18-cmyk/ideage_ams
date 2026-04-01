@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ideage.ams.dao.TrxExpenseRequestDao">
+    <resultMap id="BaseResultMap" type="com.ideage.ams.entity.TrxExpenseRequest">
+        <id column="id" property="id" />
+        <result column="department_code" property="departmentCode" />
+        <result column="emp_id" property="empId" />
+        <result column="emp_name" property="empName" />
+        <result column="request_date" property="requestDate" />
+        <result column="regular_transport_amount" property="regularTransportAmount" />
+        <result column="nonregular_transport_amount" property="nonregularTransportAmount" />
+        <result column="other_expense_amount" property="otherExpenseAmount" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="approval_status" property="approvalStatus" />
+        <result column="public_flg" property="publicFlg" />
+        <result column="edit_flg" property="editFlg" />
+        <result column="remarks" property="remarks" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="del_flg" property="delFlg" />
+
+        <result column="picture_url" property="pictureUrl" />
+    </resultMap>
+
+    <select id="selectByIf" resultMap="BaseResultMap">
+        SELECT
+        ter.id,
+        ter.department_code,
+        ter.emp_id,
+        ter.emp_name,
+        ter.request_date,
+        ter.approval_status,
+        SUM(CASE WHEN ted.transport_expense_type = 1 THEN ted.transport_amount ELSE 0 END) AS regular_transport_amount,
+        SUM(CASE WHEN ted.transport_expense_type = 2 THEN ted.transport_amount ELSE 0 END) AS nonregular_transport_amount,
+        SUM(ted.other_amount) AS other_expense_amount,
+
+        SUM(CASE WHEN ted.transport_expense_type = 1 THEN ted.transport_amount ELSE 0 END)
+        + SUM(CASE WHEN ted.transport_expense_type = 2 THEN ted.transport_amount ELSE 0 END)
+        + SUM(ted.other_amount) AS total_amount,
+        ter.remarks,
+        ter.create_user_id,
+        ter.update_user_id,
+        ter.create_time,
+        ter.update_time,
+        ter.del_flg,
+        ter.picture_url
+        FROM trx_expense_request AS ter
+        LEFT JOIN trx_expense_detail AS ted
+        ON ter.id = ted.request_id
+        LEFT JOIN mst_department AS mst_department
+        ON ter.department_code = mst_department.department_code
+
+        <where>
+            ter.del_flg != 1
+            <if test="department != null and department != ''">
+                AND mst_department.department_name = #{department}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                AND ter.emp_name = #{employeeName}
+            </if>
+            <if test="employeeId != null and employeeId != ''">
+                AND ter.emp_id = #{employeeId}
+            </if>
+            <if test="startMonth != null and startMonth != ''">
+                AND ter.request_date &gt;= STR_TO_DATE(CONCAT(#{startMonth}, '-01'), '%Y-%m-%d')
+            </if>
+            <if test="endMonth != null and endMonth != ''">
+                AND ter.request_date &lt;= LAST_DAY(STR_TO_DATE(CONCAT(#{endMonth}, '-01'), '%Y-%m-%d'))
+            </if>
+        </where>
+        GROUP BY ter.id
+
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            ter.id,
+            ter.department_code,
+            ter.emp_id,
+            ter.emp_name,
+            ter.request_date,
+            ter.approval_status,
+
+            -- 类型1
+            SUM(CASE WHEN ted.transport_expense_type = 1
+                         THEN ted.transport_amount ELSE 0 END) AS regular_transport_amount,
+            -- 类型2
+            SUM(CASE WHEN ted.transport_expense_type = 2
+                         THEN ted.transport_amount ELSE 0 END) AS nonregular_transport_amount,
+            -- 类型3
+            SUM(ted.other_amount) AS other_expense_amount,
+
+            -- ✅ total直接重新写一遍
+            SUM(CASE WHEN ted.transport_expense_type = 1
+                         THEN ted.transport_amount ELSE 0 END)
+                +
+            SUM(CASE WHEN ted.transport_expense_type = 2
+                         THEN ted.transport_amount ELSE 0 END)
+                +
+            SUM(ted.other_amount) AS total_amount,
+
+            ter.remarks,
+            ter.create_user_id,
+            ter.update_user_id,
+            ter.create_time,
+            ter.update_time,
+            ter.del_flg AS del_fla,
+            ter.picture_url
+        FROM trx_expense_request AS ter
+                 LEFT JOIN trx_expense_detail AS ted
+                           ON ter.id = ted.request_id
+         where  ter.del_flg != 1
+        GROUP BY ter.id;
+
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        ter.id,
+        ter.department_code,
+        ter.emp_id,
+        ter.emp_name,
+        ter.request_date,
+        ter.approval_status,
+
+        -- 类型1
+        SUM(CASE WHEN ted.transport_expense_type = 1
+        THEN ted.transport_amount ELSE 0 END) AS regular_transport_amount,
+        -- 类型2
+        SUM(CASE WHEN ted.transport_expense_type = 2
+        THEN ted.transport_amount ELSE 0 END) AS nonregular_transport_amount,
+        -- 类型3
+        SUM(ted.other_amount) AS other_expense_amount,
+
+        -- ✅ total直接重新写一遍
+        SUM(CASE WHEN ted.transport_expense_type = 1
+        THEN ted.transport_amount ELSE 0 END)
+        +
+        SUM(CASE WHEN ted.transport_expense_type = 2
+        THEN ted.transport_amount ELSE 0 END)
+        +
+        SUM(ted.other_amount) AS total_amount,
+
+        ter.remarks,
+        ter.create_user_id,
+        ter.update_user_id,
+        ter.create_time,
+        ter.update_time,
+        ter.del_flg AS del_fla,
+        ter.picture_url
+        FROM trx_expense_request AS ter
+        LEFT JOIN trx_expense_detail AS ted
+        ON ter.id = ted.request_id
+
+        <where>
+            ter.del_flg != 1
+        <if test="requestId != null">
+            AND ter.id = #{requestId}
+        </if>
+        </where>
+        GROUP BY ter.id;
+    </select>
+
+    <select id="getTotalTrxExpenseList" parameterType="Map" resultType="int">
+        select count(*) from trx_expense_request AS ter
+        LEFT JOIN mst_department AS mst_department
+        ON ter.department_code = mst_department.department_code
+        <where>
+        ter.del_flg != 1
+            <if test="department != null and department != ''">
+                AND mst_department.department_name = #{department}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                AND ter.emp_name = #{employeeName}
+            </if>
+            <if test="employeeId != null and employeeId != ''">
+                AND ter.emp_id = #{employeeId}
+            </if>
+            <if test="startMonth != null and startMonth != ''">
+                AND ter.request_date &gt;= STR_TO_DATE(CONCAT(#{startMonth}, '-01'), '%Y-%m-%d')
+            </if>
+            <if test="endMonth != null and endMonth != ''">
+                AND ter.request_date &lt;= LAST_DAY(STR_TO_DATE(CONCAT(#{endMonth}, '-01'), '%Y-%m-%d'))
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO trx_expense_request
+        (department_code, emp_id, emp_name, request_date,
+         regular_transport_amount, nonregular_transport_amount, other_expense_amount, total_amount,
+         approval_status, public_flg, edit_flg, remarks,
+         create_user_id, update_user_id, create_time, update_time, del_flg)
+        VALUES
+            (#{departmentCode}, #{empId}, #{empName}, #{requestDate},
+             #{regularTransportAmount}, #{nonregularTransportAmount}, #{otherExpenseAmount}, #{totalAmount},
+             #{approvalStatus}, #{publicFlg}, #{editFlg}, #{remarks},
+             #{createUserId}, #{updateUserId}, #{createTime}, #{updateTime}, #{delFlg})
+    </insert>
+
+
+
+    <update id="update">
+        UPDATE trx_expense_request
+        SET department_code = #{departmentCode},
+            emp_id = #{empId},
+            emp_name = #{empName},
+            request_date = #{requestDate},
+            regular_transport_amount = #{regularTransportAmount},
+            nonregular_transport_amount = #{nonregularTransportAmount},
+            other_expense_amount = #{otherExpenseAmount},
+            total_amount = #{totalAmount},
+            approval_status = #{approvalStatus},
+            public_flg = #{publicFlg},
+            edit_flg = #{editFlg},
+            remarks = #{remarks},
+            update_user_id = #{updateUserId},
+            update_time = #{updateTime},
+            del_flg = #{delFlg}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        UPDATE trx_expense_request SET del_flg = '1' WHERE id = #{id}
+    </delete>
+
+    <update id="updateFolder" parameterType="map">
+        UPDATE trx_expense_request
+        SET picture_url = #{folderUrl}
+        WHERE id = #{requestId}
+    </update>
+    
+    <delete id="deleteByIds">
+    DELETE FROM user
+    WHERE id IN
+    <foreach collection="ids" item="id" open="(" separator="," close=")">
+        #{id}
+    </foreach>
+	</delete>
+
+</mapper>

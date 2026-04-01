@@ -9,14 +9,15 @@ import com.ideage.ams.config.annotation.TokenToUser;
 import com.ideage.ams.entity.AdminUser;
 import com.ideage.ams.entity.AttendanceList;
 import com.ideage.ams.service.AttendanceListService;
+import com.ideage.ams.service.TrxExpenseRequestService;
 import com.ideage.ams.utils.MassageUtil;
+import com.ideage.ams.utils.PageResult;
 import com.ideage.ams.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
 /**
  * @description 勤怠管理・コントローラー
  * @author zhen.cheng
@@ -28,6 +29,9 @@ public class AttendanceListController {
     @Autowired
     private AttendanceListService attendanceListService;
 
+    @Autowired
+    private TrxExpenseRequestService expenseRequestService;
+
     /**
      * リストの取得
      */
@@ -36,10 +40,13 @@ public class AttendanceListController {
         if (StringUtils.isEmpty(params.get("page")) || StringUtils.isEmpty(params.get("limit"))) {
             return ResultGenerator.getErrorResult(Constants.RESULT_CODE_PARAM_ERROR,  MsgConstants.MSG_ERROR_0001);
         }
+
         //查询列表数据
         PageUtil pageUtil = new PageUtil(params);
         return ResultGenerator.getSuccessResult(attendanceListService.getAttendanceListPage(pageUtil));
     }
+
+
 
     /**
      * 詳細情報

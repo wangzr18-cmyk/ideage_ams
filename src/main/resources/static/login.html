@@ -41,7 +41,12 @@
                     <div class="input-group">
                         <input type="password" id="password" class="form-control" placeholder="パスワード">
                         <div class="input-group-append">
-                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                            <div class="input-group-append">
+                                 <span class="input-group-text" onclick="togglePassword()" style="cursor:pointer;">
+                                        <i id="toggle-icon" class="fa fa-eye-slash"></i>
+                                 </span>
+                            </div>
+
                         </div>
                     </div>
                 </div>

@@ -129,6 +129,6 @@ public class AmsAuthFilter extends UsernamePasswordAuthenticationFilter {
         objectMapper.writeValue(response.getWriter(), ResultGenerator.getFailResult(failed.getMessage()));
 
         // Continue with default behavior
-        super.unsuccessfulAuthentication(request, response, failed);
+       // super.unsuccessfulAuthentication(request, response, failed);
     }
 }

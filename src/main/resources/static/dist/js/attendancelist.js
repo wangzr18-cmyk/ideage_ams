@@ -44,7 +44,7 @@ $(function() {
     $('#attendanceModal').modal('hide');
 
     $("#jqGrid").jqGrid({
-        url: 'attendancelist/list',
+        url: 'expense/list',
         datatype: "json",
         colModel: [
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
@@ -124,6 +124,8 @@ $('#saveButton').click(function () {
         var data = {"articleTitle": title, "articleContent": content, "addName": addName};
         var url = 'attendancelist/save';
         var method = 'POST';
+
+        console.log("checkid=",id );
         if (id > 0) {
             data = {"id": id, "articleTitle": title, "articleContent": content, "addName": addName};
             url = 'attendancelist/update';
