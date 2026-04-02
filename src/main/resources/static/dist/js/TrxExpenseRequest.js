@@ -189,7 +189,7 @@ function deleteExpense() {
 
 	   rowIds.forEach(function (rowId) {
 	       var rowData = $("#jqGrid").jqGrid("getRowData", rowId);
-	       ids.push(parseInt(rowData.requestId));
+	       ids.push(parseInt(rowData.id));
 	   });
 
 	   var token = $("meta[name='_csrf']").attr("content");

@@ -16,9 +16,9 @@ public interface TrxExpenseRequestService {
 
     public PageResult getAll(PageUtil pageUtil);
 
-    public PageResult deleteById(Integer id,PageUtil pageUtil);
+    public boolean deleteById(Integer id);
     
-    public PageResult deleteByIds(List<Integer> ids,PageUtil pageUtil);
+    public boolean deleteByIds(List<Integer> ids);
 
     List<TrxExpenseRequest> getById(Integer requestId);
 

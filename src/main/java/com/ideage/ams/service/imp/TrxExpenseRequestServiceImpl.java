@@ -24,8 +24,6 @@ public class TrxExpenseRequestServiceImpl implements TrxExpenseRequestService {
     public PageResult getByIf(PageUtil pageUtil) {
         List<TrxExpenseRequest> TrxList = mapper.selectByIf(pageUtil);
 
-        //  PageResult pageResult = new PageResult(TrxList, total, pageUtil.getLimit(), pageUtil.getPage());
-//写法需要改
         int total = mapper.getTotalTrxExpenseList(pageUtil);
         int pageNum = pageUtil.getPage();
         int pageSize = pageUtil.getLimit();
@@ -60,39 +58,14 @@ public class TrxExpenseRequestServiceImpl implements TrxExpenseRequestService {
     }
 
     @Override
-    public PageResult  deleteById(Integer id,PageUtil pageUtil) {
+    public boolean deleteById(Integer id) {
 
-        boolean ok = mapper.deleteById(id);
-        List<TrxExpenseRequest> TrxList = mapper.selectAll();
-
-        int total = mapper.getTotalTrxExpenseList(pageUtil);
-
-        int fromIndex = (pageUtil.getPage() - 1) * pageUtil.getLimit();
-        int toIndex = Math.min(fromIndex + pageUtil.getLimit(), total);
-
-        List<TrxExpenseRequest> pageList = TrxList.subList(fromIndex, toIndex);
-
-        PageResult pageResult = new PageResult(pageList, total, pageUtil.getLimit(),pageUtil.getPage());
-
-        return pageResult;
+        return mapper.deleteById(id);
     }
     
-    public PageResult deleteByIds(List<Integer> ids,PageUtil pageUtil) {
-    	
-    	 boolean ok = mapper.deleteByIds(ids);
-    	
-    	 List<TrxExpenseRequest> TrxList = mapper.selectAll();
-
-         int total = mapper.getTotalTrxExpenseList(pageUtil);
-
-         int fromIndex = (pageUtil.getPage() - 1) * pageUtil.getLimit();
-         int toIndex = Math.min(fromIndex + pageUtil.getLimit(), total);
-
-         List<TrxExpenseRequest> pageList = TrxList.subList(fromIndex, toIndex);
-
-         PageResult pageResult = new PageResult(pageList, total, pageUtil.getLimit(),pageUtil.getPage());
-    	
-    	 return pageResult;
+    @Override
+    public boolean deleteByIds(List<Integer> ids) {
+    	 return mapper.deleteByIds(ids);
     }
 
     @Override

@@ -107,14 +107,7 @@ public class TrxExpenseRequestController {
       
         Integer id = (Integer) params.get("id");
 
-
-        Map<String, Object> pageParams = new HashMap<>();
-        pageParams.put("page", params.get("page"));
-        pageParams.put("limit", params.get("limit"));
-
-        PageUtil pageUtil = new PageUtil(pageParams);
-
-        return ResultGenerator.getSuccessResult(expenseRequestService.deleteById(id,pageUtil));
+        return ResultGenerator.getSuccessResult(expenseRequestService.deleteById(id));
     }
     
     @PostMapping("/deleteBatch")
@@ -125,14 +118,8 @@ public class TrxExpenseRequestController {
         if (ids == null || ids.isEmpty()) {
             return ResultGenerator.getFailResult("请选择要删除的数据");
         }
-
-        Map<String, Object> pageParams = new HashMap<>();
-        pageParams.put("page", params.get("page"));
-        pageParams.put("limit", params.get("limit"));
-
-        PageUtil pageUtil = new PageUtil(pageParams);
         
-        return ResultGenerator.getSuccessResult(expenseRequestService.deleteByIds(ids,pageUtil));
+        return ResultGenerator.getSuccessResult(expenseRequestService.deleteByIds(ids));
     }
 
 

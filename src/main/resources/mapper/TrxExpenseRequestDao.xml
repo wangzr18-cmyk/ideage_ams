@@ -236,7 +236,8 @@
     </update>
     
     <delete id="deleteByIds">
-    DELETE FROM user
+    UPDATE trx_expense_request
+    SET del_flg = '1'
     WHERE id IN
     <foreach collection="ids" item="id" open="(" separator="," close=")">
         #{id}
