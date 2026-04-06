@@ -10,7 +10,6 @@ public class AmsApplication {
 
     public static void main(String[] args) {
         System.out.println("ams starting...");
-      
         SpringApplication.run(AmsApplication.class, args);
     }
 }

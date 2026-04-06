@@ -268,5 +268,61 @@ function expenseExport() {
 	   form.remove();
 }
 
+function expenseAdd() {
+  document.getElementById("modal").style.display = "block";
+}
+
+function nextStep() {
+  if (!document.getElementById("name").value.trim() ||
+      !document.getElementById("user").value.trim() ||
+      !document.getElementById("date").value.trim() ||
+      !document.getElementById("desc").value.trim()) {
+    alert("主表不能为空");
+    return;
+  }
+
+  document.getElementById("step1").style.display = "none";
+  document.getElementById("step2").style.display = "block";
+}
+
+function addDetail() {
+  let div = document.createElement("div");
+
+  div.innerHTML = `
+    <input placeholder="行先">
+    <input placeholder="区間">
+    <input placeholder="交通手段">
+    <input placeholder="片往定">
+    <input placeholder="事由">
+    <input placeholder="金額">
+    <input placeholder="支払い先">
+    <input placeholder="勘定科目">
+	<input placeholder="摘要">
+	<input placeholder="金額">
+    <hr>
+  `;
+
+  document.getElementById("details").appendChild(div);
+}
+
+function submit() {
+  let inputs = document.querySelectorAll("#details input");
+
+  if (inputs.length === 0) {
+    alert("请添加明细");
+    return;
+  }
+
+  for (let input of inputs) {
+    if (!input.value.trim()) {
+      alert("明细不能为空");
+      return;
+    }
+  }
+
+  alert("可以提交后端了");
+
+  // TODO: 这里接你的后端
+}
 
 
